@@ -2,7 +2,6 @@ import { useMemo } from 'react'
 import * as THREE from 'three'
 import { Kit, KitMeshes } from './kit'
 import { texCourt, texField, texTrack, tiled } from '../textures'
-import { person } from './people'
 
 function rounded(w: number, h: number, r: number, hole = false) {
   const s = new THREE.Shape()
@@ -31,36 +30,8 @@ export function Playground({ lite }: { lite: boolean }) {
   }, [])
   const trackTex = useMemo(() => tiled(texTrack(), 1 / 6, 1 / 6), [])
 
-  const lanes = useMemo(
-    () =>
-      [1, 2, 3, 4, 5].map((n) => {
-        const o = rounded(24 + 2 * n, 42 + 2 * n, 8 + n)
-        o.holes.push(new THREE.Path(rounded(24 + 2 * n - 0.1, 42 + 2 * n - 0.1, 8 + n - 0.05).getPoints(24).reverse()))
-        return new THREE.ShapeGeometry(o, 24)
-      }),
-    [],
-  )
-
   const kit = useMemo(() => {
     const k = new Kit()
-    // athletes mid-stride on the track + a kickabout on the field + basketball
-    const run: [number, number, number][] = [
-      [47 + 14.5, 4, 0],
-      [47 + 15.5, 10, 0.1],
-      [47 - 14.5, -2, Math.PI],
-      [47 - 15.6, -9, Math.PI],
-      [47 + 3, 4 - 22.2, Math.PI / 2],
-      [47 - 4, 4 + 22.4, -Math.PI / 2],
-    ]
-    run.forEach(([x, z, a], i) =>
-      person(k, x, z, a, { shirt: i % 2 ? '#e8731a' : '#2f8f66', pants: '#1a1a1a', stride: 1, arms: 'down', bag: false, skin: i % 5, scale: 1.0 }),
-    )
-    const field: [number, number][] = [[44, 2], [48, 6], [52, 0], [46, 12], [50, -6], [43, -4]]
-    field.forEach(([x, z], i) =>
-      person(k, x, z, i * 1.1, { shirt: i % 2 ? '#e8731a' : '#f3f1ea', pants: '#123d2e', stride: i % 2 ? 0.9 : -0.9, bag: false, skin: i % 5 }),
-    )
-    const court: [number, number][] = [[40, -36], [44, -34], [50, -38], [54, -35]]
-    court.forEach(([x, z], i) => person(k, x, z, i * 0.8, { shirt: i % 2 ? '#e8731a' : '#2f8f66', pants: '#111', stride: 0.8, arms: 'up', bag: false, skin: i % 5 }))
     // football goals (z ends of the field)
     for (const sz of [-1, 1]) {
       const z = 4 + sz * 20.5
@@ -110,11 +81,6 @@ export function Playground({ lite }: { lite: boolean }) {
         <planeGeometry args={[30, 16]} />
         <meshStandardMaterial map={texCourt()} roughness={0.8} />
       </mesh>
-      {lanes.map((g, i) => (
-        <mesh key={i} position={[47, 0.07, 4]} rotation={[-Math.PI / 2, 0, 0]} geometry={g}>
-          <meshBasicMaterial color="#f4efe6" />
-        </mesh>
-      ))}
       <KitMeshes kit={kit} shadows={!lite} />
     </group>
   )

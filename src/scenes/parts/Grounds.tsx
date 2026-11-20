@@ -4,7 +4,6 @@ import * as THREE from 'three'
 import { mergeVertices } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
 import { Kit, KitMeshes } from './kit'
 import { Local } from './local'
-import { person } from './people'
 import { texAsphalt, texCloud, texGrass, texPaver, texSign, tiled } from '../textures'
 import { timeUniform } from '../sceneState'
 import { device } from '../../lib/camState'
@@ -49,7 +48,7 @@ function Flat({
 /** Foliage that gently sways in the wind via a vertex-shader tweak (no per-frame CPU work). */
 function useFoliageMaterial() {
   return useMemo(() => {
-    const m = new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: 0.92, vertexColors: true })
+    const m = new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: 0.9, flatShading: false })
     m.onBeforeCompile = (sh) => {
       sh.uniforms.uTime = timeUniform
       sh.vertexShader = sh.vertexShader
@@ -86,16 +85,6 @@ function Trees({ points, lite }: { points: [number, number, number][]; lite: boo
       p.setXYZ(i, v.x * n, v.y * n * 0.9, v.z * n)
     }
     g.computeVertexNormals()
-    const col = new Float32Array(p.count * 3)
-    for (let i = 0; i < p.count; i++) {
-      v.fromBufferAttribute(p, i)
-      const t = THREE.MathUtils.clamp(v.y * 0.55 + 0.55, 0, 1)
-      const k = 0.45 + t * 0.75 + (Math.sin(v.x * 9 + v.z * 7) * 0.5 + 0.5) * 0.12
-      col[i * 3] = k
-      col[i * 3 + 1] = k
-      col[i * 3 + 2] = k * 0.92
-    }
-    g.setAttribute('color', new THREE.BufferAttribute(col, 3))
     return g
   }, [lite])
 
@@ -107,13 +96,13 @@ function Trees({ points, lite }: { points: [number, number, number][]; lite: boo
       const h = 3.2 * s
       k.cyl('bark', x, 0, z, 0.38 * s, h)
       const base = new THREE.Color().setHSL(0.27 + r() * 0.05, 0.45 + r() * 0.15, 0.14 + r() * 0.08)
-      const n = lite ? 3 : 5
+      const n = lite ? 2 : 3
       for (let i = 0; i < n; i++) {
         const a = r() * Math.PI * 2
-        const rr = i === 0 ? 0 : (0.9 + r() * 0.9) * s
+        const rr = i === 0 ? 0 : 1.2 * s
         c.push({
-          p: new THREE.Vector3(x + Math.cos(a) * rr, h + 1.1 * s + (i % 3) * 0.55 * s, z + Math.sin(a) * rr),
-          s: (2.0 - i * 0.22 + r() * 0.3) * s,
+          p: new THREE.Vector3(x + Math.cos(a) * rr, h + 1.2 * s + i * 0.35 * s, z + Math.sin(a) * rr),
+          s: (2.3 - i * 0.2) * s,
           col: base.clone().offsetHSL(0, 0, (r() - 0.5) * 0.06),
         })
       }
@@ -124,7 +113,7 @@ function Trees({ points, lite }: { points: [number, number, number][]; lite: boo
   useLayoutEffect(() => {
     const m = new THREE.Matrix4()
     clumps.forEach((c, i) => {
-      m.compose(c.p, new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), c.p.x * 3.1), new THREE.Vector3(c.s, c.s * (0.78 + Math.abs(Math.sin(c.p.z * 5)) * 0.3), c.s))
+      m.compose(c.p, new THREE.Quaternion(), new THREE.Vector3(c.s, c.s * 0.9, c.s))
       ref.current.setMatrixAt(i, m)
       ref.current.setColorAt(i, c.col)
     })
@@ -297,56 +286,6 @@ function buildGrounds(k: Kit, lite: boolean) {
   }
   // road markings
   for (let x = -150; x < 150; x += 8) k.box('white', x, 0.06, 58, 3.5, 0.02, 0.25)
-  // palms lining the entrance axis and the building
-  const palm = (px: number, pz: number, ph: number) => {
-    const lean = Math.sin(px * 1.7 + pz) * 0.25
-    for (let i = 0; i < 6; i++) {
-      const t = i / 6
-      k.cyl('bark', px + lean * t * t * ph * 0.25, t * ph, pz, 0.34 - t * 0.14, ph / 6 + 0.05)
-    }
-    const tx = px + lean * ph * 0.25
-    for (let i = 0; i < 11; i++) {
-      const a = (i / 11) * Math.PI * 2
-      k.box('leaf', tx + Math.cos(a) * 1.25, ph + 0.15, pz + Math.sin(a) * 1.25, 2.7, 0.04, 0.5, { ry: -a, rz: -0.42 })
-    }
-    k.sph('bark', tx, ph - 0.1, pz, 0.45)
-  }
-  for (const [px, pz, ph] of [
-    [-3.3, 26, 6.5],
-    [3.3, 26, 7.2],
-    [-3.3, 38, 6.8],
-    [3.3, 38, 6.2],
-    [-27, 12, 7.5],
-    [27, 12, 6.9],
-    [-9, 45, 7],
-    [9, 45, 6.4],
-  ])
-    palm(px, pz, ph)
-  // street lamps along the road
-  for (let x = -120; x <= 120; x += 22) {
-    k.cyl('metal', x, 0, 51.4, 0.16, 7.5)
-    k.box('metal', x, 7.4, 52.4, 0.12, 0.12, 2.2)
-    k.box('yellowGlow', x, 7.3, 53.3, 0.5, 0.1, 0.3)
-  }
-  // students and staff moving about the forecourt
-  const walkers: [number, number, number, number][] = [
-    [-1.4, 20, Math.PI, 0.6],
-    [-0.5, 20.6, Math.PI, -0.6],
-    [1.6, 24, 0, 0.6],
-    [2.4, 24.4, 0, -0.5],
-    [-2, 33, Math.PI, 0.5],
-    [-1.2, 33.5, Math.PI, -0.6],
-    [2.2, 40, 0, 0.5],
-    [-12, 28, 1.4, 0.4],
-    [-13, 28.6, 1.4, -0.5],
-    [12, 24, -1.5, 0.5],
-    [13, 22, -1.7, -0.4],
-    [0.3, 15.2, Math.PI, 0.6],
-    [-0.6, 15, Math.PI, -0.5],
-  ]
-  walkers.forEach(([wx, wz, ang, st], i) => {
-    person(k, wx, wz, ang, { stride: st, shirt: i % 5 === 4 ? '#c9d8c2' : '#f3f1ea', pants: i % 3 === 0 ? '#123d2e' : '#1d2f4a', girl: i % 2 === 0, skin: i % 5, y0: 0.06 })
-  })
   // cars in the parking apron
   const carMats = ['carRed', 'carWhite', 'carSilver', 'carBlue', 'carWhite', 'carSilver'] as const
   const n = lite ? 4 : 8

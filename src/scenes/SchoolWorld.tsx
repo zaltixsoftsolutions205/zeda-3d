@@ -5,7 +5,6 @@ import * as THREE from 'three'
 import SchoolEnvironment from './SchoolEnvironment'
 import DigitalEnvironment from './DigitalEnvironment'
 import { CameraController } from './CameraController'
-import Effects from './Effects'
 import { digitalLights, timeUniform } from './sceneState'
 import { cam, device } from '../lib/camState'
 
@@ -23,15 +22,13 @@ function SkyDome() {
         side: THREE.BackSide,
         depthWrite: false,
         fog: false,
-        uniforms: { top: { value: DAY_TOP.clone() }, hor: { value: DAY_HOR.clone() }, sun: { value: new THREE.Vector3(80, 62, 50).normalize() }, sunAmt: { value: 1 } },
+        uniforms: { top: { value: DAY_TOP.clone() }, hor: { value: DAY_HOR.clone() } },
         vertexShader: `varying vec3 vP; void main(){ vP = normalize(position); gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
         fragmentShader: `
-          varying vec3 vP; uniform vec3 top; uniform vec3 hor; uniform vec3 sun; uniform float sunAmt;
+          varying vec3 vP; uniform vec3 top; uniform vec3 hor;
           void main(){
             float h = clamp(vP.y*1.6+0.05,0.,1.);
             vec3 c = mix(hor, top, pow(h,0.65));
-            float sd = max(dot(normalize(vP), normalize(sun)), 0.);
-            c += vec3(1.0,0.82,0.55) * (pow(sd, 900.)*2.5 + pow(sd, 18.)*0.28 + pow(sd,3.)*0.06) * sunAmt;
             gl_FragColor = vec4(c,1.);
             #include <tonemapping_fragment>
             #include <colorspace_fragment>
@@ -44,7 +41,6 @@ function SkyDome() {
     ref.current.position.copy(camera.position)
     mat.uniforms.top.value.lerpColors(DAY_TOP, NIGHT_TOP, cam.digital)
     mat.uniforms.hor.value.lerpColors(DAY_HOR, NIGHT_HOR, cam.digital)
-    mat.uniforms.sunAmt.value = 1 - cam.digital
   })
   return (
     <mesh ref={ref} material={mat} renderOrder={-10} frustumCulled={false}>
@@ -58,18 +54,18 @@ function WorldState({ tier }: { tier: number }) {
   const { scene } = useThree()
   const sun = useRef<THREE.DirectionalLight>(null!)
   const hemi = useRef<THREE.HemisphereLight>(null!)
-  const fog = useMemo(() => new THREE.Fog(FOG_DAY.clone(), 90, 760), [])
+  const fog = useMemo(() => new THREE.Fog(FOG_DAY.clone(), 60, 520), [])
   scene.fog = fog
 
   useFrame(({ clock }, dt) => {
     timeUniform.value = device.reduced ? 0 : clock.elapsedTime
     const d = cam.digital
     fog.color.lerpColors(FOG_DAY, FOG_NIGHT, d)
-    fog.near = THREE.MathUtils.lerp(90, 0.5, d)
-    fog.far = THREE.MathUtils.lerp(760, 34, Math.pow(d, 0.6))
+    fog.near = THREE.MathUtils.lerp(60, 0.5, d)
+    fog.far = THREE.MathUtils.lerp(520, 34, Math.pow(d, 0.6))
     const k = 1 - d * 0.92
-    sun.current.intensity = 3.3 * k
-    hemi.current.intensity = 0.5 * k
+    sun.current.intensity = 2.6 * k
+    hemi.current.intensity = 0.55 * k
     scene.environmentIntensity = 0.55 * k
     if (digitalLights.school) digitalLights.school.visible = d < 0.995
     if (digitalLights.interior) digitalLights.interior.visible = d < 0.995
@@ -80,12 +76,12 @@ function WorldState({ tier }: { tier: number }) {
 
   return (
     <>
-      <hemisphereLight ref={hemi} args={['#bcd8f5', '#a9a392', 0.5]} />
+      <hemisphereLight ref={hemi} args={['#cfe6ff', '#b9b2a4', 0.6]} />
       <directionalLight
         ref={sun}
-        position={[80, 62, 50]}
-        intensity={3.3}
-        color="#ffe2b6"
+        position={[70, 95, 55]}
+        intensity={2.6}
+        color="#fff1dc"
         castShadow={tier < 2}
         shadow-mapSize={tier === 0 ? [2048, 2048] : [1024, 1024]}
         shadow-camera-left={-85}
@@ -101,7 +97,7 @@ function WorldState({ tier }: { tier: number }) {
   )
 }
 
-export default function SchoolWorld({ tier, fx = false }: { tier: number; fx?: boolean }) {
+export default function SchoolWorld({ tier }: { tier: number }) {
   const lite = tier > 0
   return (
     <>
@@ -119,7 +115,6 @@ export default function SchoolWorld({ tier, fx = false }: { tier: number; fx?: b
         <SchoolEnvironment lite={lite} />
       </Suspense>
       <DigitalEnvironment />
-      {fx && <Effects />}
     </>
   )
 }

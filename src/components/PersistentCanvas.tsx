@@ -72,8 +72,6 @@ function Diagnostics() {
 export default function PersistentCanvas({ onReady }: { onReady: () => void }) {
   const { tier } = useDevice()
   const [failed, setFailed] = useState(false)
-  const { reduced } = useDevice()
-  const fx = tier === 0 && !reduced
   const [dprMax, setDprMax] = useState(tier === 0 ? 1.5 : tier === 1 ? 1.35 : 1.25)
 
   return (
@@ -97,7 +95,7 @@ export default function PersistentCanvas({ onReady }: { onReady: () => void }) {
           gl={{
             antialias: tier === 0,
             powerPreference: 'high-performance',
-            toneMapping: fx ? THREE.NoToneMapping : THREE.ACESFilmicToneMapping,
+            toneMapping: THREE.ACESFilmicToneMapping,
             toneMappingExposure: 1.0,
           }}
           style={{ pointerEvents: 'none' }}
@@ -110,7 +108,7 @@ export default function PersistentCanvas({ onReady }: { onReady: () => void }) {
             onFallback={() => setDprMax(1)}
           />
           <Suspense fallback={null}>
-            <SchoolWorld tier={tier} fx={fx} />
+            <SchoolWorld tier={tier} />
           </Suspense>
         </Canvas>
       </Boundary>

@@ -52,14 +52,14 @@ export const texGrass = () =>
       512,
       512,
       (g, w, h, r) => {
-        g.fillStyle = '#62803f'
+        g.fillStyle = '#5c8a3a'
         g.fillRect(0, 0, w, h)
         for (let i = 0; i < 40; i++) {
           const x = r() * w
           const y = r() * h
           const rad = 40 + r() * 90
           const gr = g.createRadialGradient(x, y, 0, x, y, rad)
-          const c = r() > 0.5 ? '92,120,56' : '110,140,66'
+          const c = r() > 0.5 ? '82,128,50' : '104,150,60'
           gr.addColorStop(0, `rgba(${c},0.35)`)
           gr.addColorStop(1, `rgba(${c},0)`)
           g.fillStyle = gr

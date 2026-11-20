@@ -56,39 +56,6 @@ export function buildShell(kit: Kit, lite: boolean) {
     kit.glaze('x', -8.02, cx - 1.4, cx + 1.4, winY0, winY1, { mullions: 1, depth: 0.14 })
   }
 
-  // dark stone base, drain pipes, wall lamps, split ACs, shrubs: small details sell realism
-  kit.slab('concreteDark', -24.2, FL, 8.0, -3.8, FL + 0.9, 8.14)
-  kit.slab('concreteDark', 3.8, FL, 8.0, 24.2, FL + 0.9, 8.14)
-  kit.slab('concreteDark', 23.9, FL, -8.2, 24.14, FL + 0.9, 8.2)
-  kit.slab('concreteDark', -24.14, FL, -8.2, -23.9, FL + 0.9, 8.2)
-  kit.slab('concreteDark', -24.2, FL, -8.14, 24.2, FL + 0.9, -8.0)
-  for (const x of [-23.6, -7.6, 7.6, 23.6]) {
-    kit.cyl('metal', x, FL, 8.18, 0.11, ROOF - FL)
-    kit.cyl('metal', x, FL, -8.18, 0.11, ROOF - FL)
-  }
-  for (const x of [-4.4, 4.4]) {
-    kit.box('frame', x, 3.0, 8.0, 0.22, 0.4, 0.16)
-    kit.box('yellowGlow', x, 3.06, 8.09, 0.14, 0.14, 0.02)
-  }
-  for (const [cx, y] of [
-    [-19.5, 4.95],
-    [-13.5, 9.15],
-    [13.5, 4.95],
-    [19.5, 9.15],
-    [-22.5, 9.15],
-    [16.5, 4.95],
-  ]) {
-    kit.box('ac', cx, y, 8.2, 0.95, 0.3, 0.26)
-    kit.box('metal', cx + 0.5, y - 0.9, 8.14, 0.04, 0.9, 0.04)
-  }
-  for (let i = 0; i < 6; i++) kit.box('ac', -21 + i * 8.4, 4.95 + (i % 2) * 4.2, -8.2, 0.95, 0.3, 0.26)
-  for (let i = 0; i < 11; i++) {
-    const x = i < 5 ? -22 + i * 3.6 : 8 + (i - 5) * 3.6
-    kit.sph('hedge', x, FL + 0.45, 9.1, 1.5, { sy: 0.8 })
-    kit.sph('hedge', x + 1.2, FL + 0.38, 9.3, 1.1, { sy: 0.8 })
-    if (i % 2) kit.sph('red', x + 0.2, FL + 0.9, 9.0, 0.35)
-  }
-
   // ---- upper storeys ----
   kit.slab('paint', -24, CH, -8, 24, ROOF, 8)
   // projecting slab bands

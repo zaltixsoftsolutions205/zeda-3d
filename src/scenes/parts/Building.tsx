@@ -3,7 +3,6 @@ import * as THREE from 'three'
 import { Kit, KitMeshes } from './kit'
 import { buildShell, CH, FL } from './shell'
 import { buildInterior, DOORS } from './interior'
-import { texBlob, texFacade } from '../texturesExtra'
 import { texCarpet, texLogoWall, texScreen, texSign, texTile, texWhiteboard, texWood, tiled } from '../textures'
 import { digitalLights } from '../sceneState'
 
@@ -15,9 +14,6 @@ function Plane({
   map,
   basic = false,
   color,
-  rough = 0.55,
-  glossy = false,
-  overlay = false,
 }: {
   p: [number, number, number]
   size: [number, number]
@@ -26,9 +22,6 @@ function Plane({
   map?: THREE.Texture
   basic?: boolean
   color?: string
-  rough?: number
-  glossy?: boolean
-  overlay?: boolean
 }) {
   return (
     <mesh position={p} rotation={[rx, ry, 0]} receiveShadow={!basic}>
@@ -36,17 +29,7 @@ function Plane({
       {basic ? (
         <meshBasicMaterial map={map} color={color} toneMapped={false} />
       ) : (
-        <meshStandardMaterial
-          map={map}
-          color={color}
-          roughness={rough}
-          metalness={glossy ? 0.12 : 0.05}
-          envMapIntensity={glossy ? 1.5 : 1}
-          transparent={overlay}
-          depthWrite={!overlay}
-          polygonOffset={overlay}
-          polygonOffsetFactor={-2}
-        />
+        <meshStandardMaterial map={map} color={color} roughness={0.55} metalness={0.05} />
       )}
     </mesh>
   )
@@ -79,10 +62,10 @@ export function Building({ lite }: { lite: boolean }) {
       <KitMeshes kit={kit} shadows={!lite} />
 
       {/* floors */}
-      <Plane p={[0, fy, 0]} size={[47.4, 15.4]} rx={-Math.PI / 2} map={tex.tile} rough={0.18} glossy />
-      <Plane p={[-15, fy + 0.002, 5.15]} size={[18, 5.1]} rx={-Math.PI / 2} map={tex.woodL} rough={0.4} glossy />
-      <Plane p={[15, fy + 0.002, 5.15]} size={[18, 5.1]} rx={-Math.PI / 2} map={tex.wood} rough={0.4} glossy />
-      <Plane p={[-15, fy + 0.002, -4.35]} size={[18, 6.7]} rx={-Math.PI / 2} map={tex.wood} rough={0.4} glossy />
+      <Plane p={[0, fy, 0]} size={[47.4, 15.4]} rx={-Math.PI / 2} map={tex.tile} />
+      <Plane p={[-15, fy + 0.002, 5.15]} size={[18, 5.1]} rx={-Math.PI / 2} map={tex.woodL} />
+      <Plane p={[15, fy + 0.002, 5.15]} size={[18, 5.1]} rx={-Math.PI / 2} map={tex.wood} />
+      <Plane p={[-15, fy + 0.002, -4.35]} size={[18, 6.7]} rx={-Math.PI / 2} map={tex.wood} />
       <Plane p={[15, fy + 0.002, -4.35]} size={[18, 6.7]} rx={-Math.PI / 2} map={tex.carpet} />
       <Plane p={[20.2, fy + 0.012, 5.5]} size={[5.4, 3.6]} rx={-Math.PI / 2} color="#e7efe6" />
       {/* forecourt under the portico */}
@@ -91,13 +74,6 @@ export function Building({ lite }: { lite: boolean }) {
         <meshStandardMaterial color="#cfc8ba" roughness={0.8} />
       </mesh>
 
-      {/* weathering layers + ground contact shadow */}
-      <Plane p={[0, 8.7, 8.012]} size={[48, 8.2]} map={texFacade(48, 8.2, 3)} overlay rough={1} />
-      <Plane p={[0, 8.7, -8.012]} size={[48, 8.2]} ry={Math.PI} map={texFacade(48, 8.2, 5)} overlay rough={1} />
-      <Plane p={[0, 2.2, 8.2]} size={[48, 3.9]} map={texFacade(48, 3.9, 8)} overlay rough={1} />
-      <Plane p={[24.012, 8.7, 0]} size={[16, 8.2]} ry={Math.PI / 2} map={texFacade(16, 8.2, 9, 4)} overlay rough={1} />
-      <Plane p={[-24.012, 8.7, 0]} size={[16, 8.2]} ry={-Math.PI / 2} map={texFacade(16, 8.2, 11, 4)} overlay rough={1} />
-      <Plane p={[0, 0.03, 3]} size={[74, 46]} rx={-Math.PI / 2} map={texBlob()} overlay rough={1} />
       {/* reception logo wall */}
       <Plane p={[0, 2.3, -7.55]} size={[6.4, 3.2]} map={texLogoWall()} basic />
       {/* classroom whiteboard */}

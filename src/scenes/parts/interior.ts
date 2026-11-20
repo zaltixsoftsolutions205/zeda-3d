@@ -1,7 +1,6 @@
 import type { Kit } from './kit'
 import { Local } from './local'
 import { CH, FL } from './shell'
-import { person } from './people'
 
 const rand = (seed: number) => {
   let s = seed
@@ -133,10 +132,8 @@ export function buildInterior(kit: Kit, lite: boolean) {
   kit.box('woodLight', 0, FL + 1.1, -5.25, 6.3, 0.07, 1.15)
   kit.box('yellowGlow', 0, FL + 0.35, -4.83, 5.6, 0.05, 0.02)
   kit.box('white', -4.0, FL, -5.3, 0.9, 0.75, 0.9)
-  chair(kit, -1.6, -6.4, 0, 'chairYellow')
-  chair(kit, 1.6, -6.4, 0, 'chairYellow')
-  person(kit, 1.6, -6.4, 0, { seated: true, y0: FL, bag: false, scale: 1.1 })
-  person(kit, -1.4, 1.3, Math.PI / 2, { y0: FL, scale: 1.1, bag: false, shirt: '#e8e2d2', pants: '#2a2a2a', stride: 0.6 })
+  chair(kit, -1.6, -6.4, Math.PI, 'chairYellow')
+  chair(kit, 1.6, -6.4, Math.PI, 'chairYellow')
   {
     const L = new Local(kit, 1.2, -5.4, Math.PI, FL)
     monitor(L, 0, 1.17, 0)
@@ -202,7 +199,6 @@ export function buildInterior(kit: Kit, lite: boolean) {
         L.box('metal', 0, 0.55, 0, 1.1, 0.025, 0.5)
         for (const sx of [-1, 1]) for (const sz of [-1, 1]) L.cyl('metal', sx * 0.54, 0, sz * 0.22, 0.04, 0.72)
         chair(kit, x + 0.7, z, -Math.PI / 2, (['chairBlue', 'chairIndigo', 'chairOrange'] as const)[Math.floor(r() * 3)])
-        if (r() < 0.7) person(kit, x + 0.7, z, -Math.PI / 2, { seated: true, y0: FL, skin: Math.floor(r() * 5), girl: r() < 0.4 })
       }
     // teacher desk
     const T = new Local(kit, -21.8, 5.2, Math.PI / 2, FL)
@@ -211,7 +207,6 @@ export function buildInterior(kit: Kit, lite: boolean) {
     T.box('woodDark', 0.7, 0, 0, 0.06, 0.72, 0.7)
     T.box('black', 0, 0.77, 0.05, 0.36, 0.02, 0.25)
     chair(kit, -21.0, 5.2, Math.PI / 2, 'chairYellow')
-    person(kit, -22.6, 3.6, Math.PI / 2, { y0: FL, scale: 1.12, bag: false, shirt: '#2f8f66', pants: '#222222', arms: 'down' })
     // board frame
     kit.box('frame', -23.78, 1.35, 5.1, 0.06, 1.32, 4.8)
     kit.box('metal', -23.7, 1.33, 5.1, 0.08, 0.04, 4.6)
@@ -237,7 +232,6 @@ export function buildInterior(kit: Kit, lite: boolean) {
     // monitor faces the visitor side (local +z = world -x)
     monitor(D, 0.0, 0.78, 0.15)
     chair(kit, 22.0, 5.85, -Math.PI / 2, 'chairIndigo')
-    person(kit, 22.0, 5.85, -Math.PI / 2, { seated: true, y0: FL, scale: 1.1, bag: false, shirt: '#e8e2d2', pants: '#1a1a1a' })
     chair(kit, 18.2, 4.7, Math.PI / 2, 'chairYellow')
     chair(kit, 18.2, 7.0, Math.PI / 2, 'chairYellow')
     // bookshelf along east wall
@@ -263,9 +257,6 @@ export function buildInterior(kit: Kit, lite: boolean) {
 
   // ---- LIBRARY x[-24,-6] z[-7.7,-1] ----
   {
-    person(kit, -20.3, -1.95, Math.PI, { seated: true, y0: FL, skin: 2 })
-    person(kit, -9.2, -3.45, 0, { seated: true, y0: FL, skin: 4, girl: true })
-    person(kit, -17.2, -3.2, Math.PI / 2, { y0: FL, scale: 0.98, stride: 0.5 })
     bookshelf(kit, -15, -7.45, 0, 17, 5, 2.6, r, density)
     for (const cx of [-20, -10]) {
       bookshelf(kit, cx, -5.2, 0, 5.0, 4, 2.1, r, density)
@@ -300,7 +291,6 @@ export function buildInterior(kit: Kit, lite: boolean) {
         monitor(L, 0.55, 0.76, -0.05, shade)
         L.box('black', 0.1, 0.0, 0.0, 0.0001, 0.0001, 0.0001)
         chair(kit, x - 0.4, z + 0.85, Math.PI, 'chairBlue')
-        if ((i + ri) % 3 !== 1) person(kit, x - 0.4, z + 0.85, Math.PI, { seated: true, y0: FL, skin: (i + ri) % 5, girl: (i + ri) % 2 === 0 })
         chair(kit, x + 0.55, z + 0.85, Math.PI, 'chairBlue')
       }
     })
