@@ -3,7 +3,7 @@ import { Local } from './local'
 
 const SKIN = ['#e0ac82', '#c98f63', '#a86f47', '#8d5a38', '#e8bb94']
 const HAIR = ['#1a1412', '#241b16', '#2d2018', '#111111']
-const BAG = ['#2f6fb4', '#d9531e', '#e0a21b', '#2b8a5a', '#6b3fa0', '#b02a37']
+const BAG = ['#12909a', '#ee5a48', '#fbaf22', '#35bfa6', '#0b5d68', '#ff8a7a']
 
 export interface PersonOpts {
   shirt?: string

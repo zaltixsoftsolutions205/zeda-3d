@@ -59,7 +59,7 @@ function Diagnostics() {
   }, [])
   if (!msgs.length) return null
   return (
-    <div className="pointer-events-auto fixed bottom-3 left-3 z-[200] max-w-sm rounded-xl bg-black/80 p-3 font-mono text-[11px] leading-snug text-yellow-200">
+    <div className="pointer-events-auto fixed bottom-3 left-3 z-[200] max-w-sm rounded-xl bg-black/80 p-3 font-mono text-[11px] leading-snug text-amber-200">
       <b>3D diagnostics</b>
       {msgs.map((m) => (
         <div key={m} className="mt-1">{m}</div>
@@ -78,7 +78,7 @@ export default function PersistentCanvas({ onReady }: { onReady: () => void }) {
     <div
       aria-hidden
       className="fixed inset-0 z-0"
-      style={{ pointerEvents: 'none', background: 'linear-gradient(#5fa6e6,#eaf5fd)' }}
+      style={{ pointerEvents: 'none', background: 'linear-gradient(#58bfcc,#eaf8f6)' }}
     >
       {failed && <FallbackBackground />}
       <Diagnostics />

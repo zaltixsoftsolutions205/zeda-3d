@@ -95,7 +95,7 @@ function Trees({ points, lite }: { points: [number, number, number][]; lite: boo
     for (const [x, z, s] of points) {
       const h = 3.2 * s
       k.cyl('bark', x, 0, z, 0.38 * s, h)
-      const base = new THREE.Color().setHSL(0.27 + r() * 0.05, 0.45 + r() * 0.15, 0.14 + r() * 0.08)
+      const base = new THREE.Color().setHSL(0.43 + r() * 0.03, 0.45 + r() * 0.15, 0.14 + r() * 0.08)
       const n = lite ? 2 : 3
       for (let i = 0; i < n; i++) {
         const a = r() * Math.PI * 2
@@ -134,7 +134,7 @@ function Flowers() {
   const ref = useRef<THREE.InstancedMesh>(null!)
   const items = useMemo(() => {
     const r = rand(77)
-    const cols = ['#e86a8c', '#f4c542', '#f08a3c', '#ffffff', '#b98be8']
+    const cols = ['#ff7a6b', '#fbaf22', '#fbaf22', '#ffffff', '#b98be8']
     const out: { p: [number, number, number]; c: string }[] = []
     const beds: [number, number, number, number][] = [
       [-8.5, 20, 3, 14],
@@ -356,7 +356,7 @@ export function Grounds({ lite }: { lite: boolean }) {
       {/* name board at the gate */}
       <mesh position={[0, 4.25, 49.9]}>
         <planeGeometry args={[11, 0.4]} />
-        <meshBasicMaterial map={texSign('ZEDA PUBLIC SCHOOL', { w: 1024, h: 48, bg: '#0F3D2E' })} toneMapped={false} />
+        <meshBasicMaterial map={texSign('MEDAV.AI PUBLIC SCHOOL', { w: 1024, h: 48, bg: '#0b5d68' })} toneMapped={false} />
       </mesh>
       <KitMeshes kit={kit} shadows={!lite} />
       <Trees points={trees} lite={lite} />

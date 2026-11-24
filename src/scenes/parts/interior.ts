@@ -1,6 +1,7 @@
 import type { Kit } from './kit'
 import { Local } from './local'
 import { CH, FL } from './shell'
+import { person } from './people'
 
 const rand = (seed: number) => {
   let s = seed
@@ -10,7 +11,7 @@ const rand = (seed: number) => {
   }
 }
 
-const BOOK_COLORS = ['#c0392b', '#2c5282', '#d69e2e', '#2f855a', '#6b46c1', '#dd6b20', '#2b6cb0', '#97266d', '#e2e8f0', '#25245B']
+const BOOK_COLORS = ['#ee5a48', '#0b5d68', '#fbaf22', '#12909a', '#0e7c86', '#fdba3b', '#0e7c86', '#ff8a7a', '#e2e8f0', '#0b5d68']
 
 /** Positions of the door / window openings in the corridor partitions (shared with the scene for signage). */
 export const DOORS = {
@@ -281,21 +282,25 @@ export function buildInterior(kit: Kit, lite: boolean) {
     const rowsZ = [-2.9, -4.8, -6.7]
     rowsZ.forEach((z, ri) => {
       for (let i = 0; i < 6; i++) {
+        if (i === 2 || i === 3) continue // central aisle toward the smart board
         const x = 8.5 + i * 2.5
         const L = new Local(kit, x, z, 0, FL)
         L.box('white', 0, 0.72, 0, 2.3, 0.04, 0.7)
         L.box('metal', -1.1, 0, 0, 0.04, 0.72, 0.65)
         L.box('metal', 1.1, 0, 0, 0.04, 0.72, 0.65)
-        const shade = ['#7fd0ff', '#9be3a8', '#ffe39a', '#a9a8f5', '#7fd0ff'][(i + ri) % 5]
+        const shade = ['#8fe3d3', '#9be3a8', '#ffe08a', '#a9a8f5', '#8fe3d3'][(i + ri) % 5]
         monitor(L, -0.4, 0.76, -0.05, shade)
         monitor(L, 0.55, 0.76, -0.05, shade)
-        L.box('black', 0.1, 0.0, 0.0, 0.0001, 0.0001, 0.0001)
         chair(kit, x - 0.4, z + 0.85, Math.PI, 'chairBlue')
+        if ((i + ri) % 3 !== 1) person(kit, x - 0.4, z + 0.85, Math.PI, { seated: true, y0: FL, skin: (i + ri) % 5, girl: (i + ri) % 2 === 0 })
         chair(kit, x + 0.55, z + 0.85, Math.PI, 'chairBlue')
+        if ((i + ri) % 2 === 0) person(kit, x + 0.55, z + 0.85, Math.PI, { seated: true, y0: FL, skin: (i * 2 + ri) % 5, girl: i % 2 === 1 })
       }
     })
-    kit.box('black', 23.6, 1.4, -4.8, 0.08, 1.7, 3.2)
-    kit.box('screen', 23.54, 1.5, -4.8, 0.02, 1.5, 3.0, { c: '#a9d8ff' })
+    // smart board frame + teacher presenting to the class
+    kit.box('frame', 15.5, 1.05, -7.64, 3.7, 2.15, 0.1)
+    kit.box('metal', 15.5, 0.62, -7.55, 3.9, 0.06, 0.18)
+    person(kit, 15.7, -6.3, 0.25, { y0: FL, scale: 1.14, bag: false, shirt: '#35bfa6', pants: '#222222', arms: 'down', skin: 2 })
     plant(kit, 23.0, -1.8, 1.0)
   }
 

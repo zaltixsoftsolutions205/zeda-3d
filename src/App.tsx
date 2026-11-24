@@ -5,10 +5,10 @@ import Preloader from './components/Preloader'
 import DemoModal from './components/DemoModal'
 import HomeSection from './sections/HomeSection'
 import AboutSection from './sections/AboutSection'
-import ApplicationsSection from './sections/ApplicationsSection'
 import FeaturesSection from './sections/FeaturesSection'
-import AnalyticsSection from './sections/AnalyticsSection'
-import SchoolsSection from './sections/SchoolsSection'
+import WhySection from './sections/WhySection'
+import ClientsSection from './sections/ClientsSection'
+import TestimonialsSection from './sections/TestimonialsSection'
 import ContactSection from './sections/ContactSection'
 import { useScrollCamera } from './hooks/useScrollCamera'
 
@@ -29,10 +29,10 @@ export default function App() {
       <main className="relative z-10">
         <HomeSection />
         <AboutSection />
-        <ApplicationsSection />
         <FeaturesSection />
-        <AnalyticsSection />
-        <SchoolsSection />
+        <WhySection />
+        <ClientsSection />
+        <TestimonialsSection />
         <ContactSection />
       </main>
       <DemoModal />

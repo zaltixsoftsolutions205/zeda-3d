@@ -8,7 +8,7 @@ import { device } from '../../lib/camState'
 
 /** Yellow school bus built from rounded solids with glazing, decals, wheels and lights. Faces +z. */
 export function BusModel() {
-  const decal = texSign('ZEDA PUBLIC SCHOOL', { w: 1024, h: 128, bg: '#f1b60d', fg: '#0F3D2E', accent: '#0F3D2E' })
+  const decal = texSign('MEDAV.AI PUBLIC SCHOOL', { w: 1024, h: 128, bg: '#fbaf22', fg: '#0b5d68', accent: '#0b5d68' })
   const wheels: [number, number][] = [
     [1.2, 3.1],
     [-1.2, 3.1],
@@ -27,14 +27,14 @@ export function BusModel() {
         Array.from({ length: 7 }, (_, i) => (
           <mesh key={s + '-' + i} position={[s * 1.26, 2.05, -3.6 + i * 1.15]}>
             <boxGeometry args={[0.04, 0.78, 0.95]} />
-            <meshPhysicalMaterial color="#1b2a3f" roughness={0.05} metalness={0.7} />
+            <meshPhysicalMaterial color="#0a3a42" roughness={0.05} metalness={0.7} />
           </mesh>
         )),
       )}
       {/* windshield */}
       <mesh position={[0, 2.0, 5.02]}>
         <boxGeometry args={[2.1, 0.95, 0.04]} />
-        <meshPhysicalMaterial color="#1b2a3f" roughness={0.05} metalness={0.7} />
+        <meshPhysicalMaterial color="#0a3a42" roughness={0.05} metalness={0.7} />
       </mesh>
       {/* side decals + stripes */}
       {[-1, 1].map((s) => (

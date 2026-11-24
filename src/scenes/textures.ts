@@ -52,14 +52,14 @@ export const texGrass = () =>
       512,
       512,
       (g, w, h, r) => {
-        g.fillStyle = '#5c8a3a'
+        g.fillStyle = '#5dbb9c'
         g.fillRect(0, 0, w, h)
         for (let i = 0; i < 40; i++) {
           const x = r() * w
           const y = r() * h
           const rad = 40 + r() * 90
           const gr = g.createRadialGradient(x, y, 0, x, y, rad)
-          const c = r() > 0.5 ? '82,128,50' : '104,150,60'
+          const c = r() > 0.5 ? '70,170,140' : '90,190,160'
           gr.addColorStop(0, `rgba(${c},0.35)`)
           gr.addColorStop(1, `rgba(${c},0)`)
           g.fillStyle = gr
@@ -67,7 +67,7 @@ export const texGrass = () =>
         }
         for (let i = 0; i < 14000; i++) {
           const l = 28 + r() * 26
-          g.fillStyle = `hsla(${88 + r() * 25},${40 + r() * 25}%,${l}%,${0.25 + r() * 0.35})`
+          g.fillStyle = `hsla(${150 + r() * 20},${40 + r() * 25}%,${l}%,${0.25 + r() * 0.35})`
           g.fillRect(r() * w, r() * h, 1 + r() * 2, 2 + r() * 4)
         }
       },
@@ -200,7 +200,7 @@ export const texTrack = () =>
       256,
       256,
       (g, w, h, r) => {
-        g.fillStyle = '#b4503b'
+        g.fillStyle = '#e8604f'
         g.fillRect(0, 0, w, h)
         for (let i = 0; i < 8000; i++) {
           g.fillStyle = `hsla(${8 + r() * 10},${45 + r() * 20}%,${35 + r() * 20}%,0.4)`
@@ -219,7 +219,7 @@ export const texField = () =>
       (g, w, h) => {
         const bands = 12
         for (let i = 0; i < bands; i++) {
-          g.fillStyle = i % 2 ? '#4b8532' : '#548f39'
+          g.fillStyle = i % 2 ? '#3fae92' : '#46b79a'
           g.fillRect(0, (i * h) / bands, w, h / bands + 1)
         }
         g.strokeStyle = 'rgba(255,255,255,0.9)'
@@ -247,11 +247,11 @@ export const texCourt = () =>
       1024,
       540,
       (g, w, h) => {
-        g.fillStyle = '#b8402f'
+        g.fillStyle = '#ee5a48'
         g.fillRect(0, 0, w, h)
-        g.fillStyle = '#2f69b0'
+        g.fillStyle = '#12909a'
         g.fillRect(60, 40, w - 120, h - 80)
-        g.fillStyle = '#c24a38'
+        g.fillStyle = '#ff7a6b'
         g.fillRect(60, h / 2 - 120, 230, 240)
         g.fillRect(w - 290, h / 2 - 120, 230, 240)
         g.strokeStyle = '#fff'
@@ -302,7 +302,7 @@ export function texSign(
   text: string,
   opts: { sub?: string; bg?: string; fg?: string; w?: number; h?: number; accent?: string } = {},
 ) {
-  const { sub, bg = '#0F3D2E', fg = '#FFC27A', w = 1024, h = 256, accent = '#F28C28' } = opts
+  const { sub, bg = '#0b5d68', fg = '#ffd36e', w = 1024, h = 256, accent = '#fbaf22' } = opts
   return memo(`sign:${text}:${sub}:${bg}:${fg}`, () =>
     make(
       w,
@@ -342,19 +342,19 @@ export const texWhiteboard = () =>
         gr.addColorStop(1, 'rgba(255,255,255,0)')
         g.fillStyle = gr
         g.fillRect(0, 0, w, h)
-        g.fillStyle = '#0F3D2E'
+        g.fillStyle = '#0b5d68'
         g.font = '700 54px "Playfair Display", Georgia'
         g.fillText('Class 8-A · Mathematics', 40, 78)
-        g.strokeStyle = '#c0392b'
+        g.strokeStyle = '#ee5a48'
         g.lineWidth = 4
         g.beginPath()
         g.moveTo(40, 96)
         g.lineTo(560, 96)
         g.stroke()
-        g.fillStyle = '#2b6cb0'
+        g.fillStyle = '#0e7c86'
         g.font = '500 40px Manrope, Arial'
         g.fillText('x² + 5x + 6 = (x + 2)(x + 3)', 40, 160)
-        g.fillStyle = '#2f855a'
+        g.fillStyle = '#12909a'
         g.fillText('Homework → Exercise 4.2', 40, 218)
         g.strokeStyle = 'rgba(37,36,91,0.25)'
         g.lineWidth = 2
@@ -375,20 +375,20 @@ export const texScreen = (variant = 0) =>
       320,
       (g, w, h, r) => {
         const dark = variant === 0
-        g.fillStyle = dark ? '#16153f' : '#eef6ff'
+        g.fillStyle = dark ? '#16153f' : '#eaf8f6'
         g.fillRect(0, 0, w, h)
-        g.fillStyle = '#0F3D2E'
+        g.fillStyle = '#0b5d68'
         g.fillRect(0, 0, w, 34)
-        g.fillStyle = '#FFC27A'
+        g.fillStyle = '#ffd36e'
         g.font = '700 20px Arial'
-        g.fillText('ZEDA · School Dashboard', 14, 23)
-        const cols = ['#FFC27A', '#CFEBDD', '#7fd4a8', '#F5A94E']
+        g.fillText('Medav.ai · School Dashboard', 14, 23)
+        const cols = ['#ffd36e', '#cdefe8', '#6fdcc4', '#fdba3b']
         for (let i = 0; i < 4; i++) {
           g.fillStyle = dark ? 'rgba(255,255,255,0.1)' : '#fff'
           g.fillRect(14 + i * 122, 48, 112, 58)
           g.fillStyle = cols[i]
           g.fillRect(24 + i * 122, 60, 52, 8)
-          g.fillStyle = dark ? '#fff' : '#0F3D2E'
+          g.fillStyle = dark ? '#fff' : '#0b5d68'
           g.font = '700 26px Arial'
           g.fillText(String(Math.round(60 + r() * 900)), 24 + i * 122, 95)
         }
@@ -397,7 +397,7 @@ export const texScreen = (variant = 0) =>
           g.fillStyle = cols[i % 4]
           g.fillRect(24 + i * 22, h - 14 - bh, 14, bh)
         }
-        g.strokeStyle = '#FFC27A'
+        g.strokeStyle = '#ffd36e'
         g.lineWidth = 3
         g.beginPath()
         for (let i = 0; i < 12; i++) {
@@ -418,21 +418,21 @@ export const texLogoWall = () =>
       1024,
       512,
       (g, w, h) => {
-        g.fillStyle = '#0F3D2E'
+        g.fillStyle = '#0b5d68'
         g.fillRect(0, 0, w, h)
         const gr = g.createRadialGradient(w / 2, h / 2, 10, w / 2, h / 2, w * 0.6)
         gr.addColorStop(0, 'rgba(60,150,110,0.4)')
         gr.addColorStop(1, 'rgba(15,61,46,0)')
         g.fillStyle = gr
         g.fillRect(0, 0, w, h)
-        g.fillStyle = '#FFC27A'
+        g.fillStyle = '#ffd36e'
         g.font = '800 200px "Playfair Display", Georgia'
         g.textAlign = 'center'
         g.textBaseline = 'middle'
-        g.fillText('ZEDA', w / 2, h * 0.46)
+        g.fillText('MEDAV.AI', w / 2, h * 0.46)
         g.font = '600 34px Manrope, Arial'
-        g.fillStyle = '#CFEBDD'
-        g.fillText('ZALTIX EDUCATION DIGITAL ACCESS', w / 2, h * 0.78)
+        g.fillStyle = '#cdefe8'
+        g.fillText('SCHOOL MANAGEMENT SYSTEM', w / 2, h * 0.78)
       },
       { repeating: false },
     ),

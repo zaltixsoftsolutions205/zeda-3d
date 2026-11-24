@@ -5,7 +5,7 @@ import { ToneMappingMode } from 'postprocessing'
 export default function Effects() {
   return (
     <EffectComposer multisampling={0} enableNormalPass={false}>
-      <N8AO aoRadius={1.8} distanceFalloff={1.2} intensity={2.4} quality="medium" halfRes color="#10261c" />
+      <N8AO aoRadius={1.8} distanceFalloff={1.2} intensity={2.4} quality="medium" halfRes color="#0a2a30" />
       <Bloom mipmapBlur intensity={0.38} luminanceThreshold={0.92} luminanceSmoothing={0.2} />
       <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
       <HueSaturation saturation={0.08} />

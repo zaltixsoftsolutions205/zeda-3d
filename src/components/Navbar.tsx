@@ -9,10 +9,10 @@ import { SECTION_IDS } from '../lib/camState'
 const LINKS = [
   ['home', 'Home'],
   ['about', 'About'],
-  ['applications', 'Applications'],
   ['features', 'Features'],
-  ['analytics', 'AI Analytics'],
-  ['schools', 'For Schools'],
+  ['why', 'Why Medav'],
+  ['clients', 'Clients'],
+  ['testimonials', 'Testimonials'],
   ['contact', 'Contact'],
 ] as const
 
@@ -60,13 +60,13 @@ export default function Navbar() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-6 sm:pt-4">
       <nav
-        className={`panel-dark mx-auto flex max-w-6xl items-center justify-between py-2 pl-4 pr-2 transition-all duration-500 ${
-          scrolled ? 'shadow-2xl' : ''
+        className={`mx-auto flex max-w-6xl items-center justify-between rounded-2xl border border-[#0b5d68]/10 bg-white py-3 pl-5 pr-3 text-ink transition-all duration-500 ${
+          scrolled ? 'shadow-2xl' : 'shadow-lg'
         }`}
         aria-label="Primary"
       >
-        <button onClick={() => go('home')} aria-label="ZEDA – back to top" className="rounded-full">
-          <Logo size={34} />
+        <button onClick={() => go('home')} aria-label="Medav.ai – back to top" className="rounded-full">
+          <Logo size={38} />
         </button>
 
         <ul className="hidden items-center gap-1 lg:flex">
@@ -75,8 +75,8 @@ export default function Navbar() {
               <button
                 onClick={() => go(id)}
                 aria-current={active === i ? 'true' : undefined}
-                className={`relative rounded-full px-3.5 py-2 text-[13px] font-medium transition ${
-                  active === i ? 'text-white' : 'text-white/80 hover:text-white'
+                className={`relative rounded-full px-4 py-2.5 text-[15px] font-bold transition ${
+                  active === i ? 'text-white' : 'text-ink/80 hover:text-ink'
                 }`}
               >
                 {active === i && (
@@ -93,18 +93,18 @@ export default function Navbar() {
         </ul>
 
         <div className="flex items-center gap-2">
-          <button className="btn btn-primary !px-5 !py-2.5" onClick={() => modal.open('demo')}>
+          <button className="btn btn-primary !px-6 !py-3 !text-[15px]" onClick={() => modal.open('demo')}>
             Book a Demo
           </button>
           <button
-            className="grid h-10 w-10 place-items-center rounded-full bg-white/10 lg:hidden"
+            className="grid h-10 w-10 place-items-center rounded-full bg-sky-zeda lg:hidden"
             aria-label="Menu"
             aria-expanded={open}
             onClick={() => setOpen((o) => !o)}
           >
             <span className="relative block h-3 w-5">
-              <span className={`absolute left-0 top-0 h-0.5 w-5 bg-white transition ${open ? 'translate-y-[5px] rotate-45' : ''}`} />
-              <span className={`absolute bottom-0 left-0 h-0.5 w-5 bg-white transition ${open ? '-translate-y-[5px] -rotate-45' : ''}`} />
+              <span className={`absolute left-0 top-0 h-0.5 w-5 bg-[#0b5d68] transition ${open ? 'translate-y-[5px] rotate-45' : ''}`} />
+              <span className={`absolute bottom-0 left-0 h-0.5 w-5 bg-[#0b5d68] transition ${open ? '-translate-y-[5px] -rotate-45' : ''}`} />
             </span>
           </button>
         </div>
@@ -116,14 +116,14 @@ export default function Navbar() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="panel-dark mx-auto mt-2 max-w-6xl p-3 lg:hidden"
+            className="mx-auto mt-2 max-w-6xl rounded-xl border border-[#0b5d68]/10 bg-white p-3 text-ink shadow-xl lg:hidden"
           >
             {LINKS.map(([id, label], i) => (
               <button
                 key={id}
                 onClick={() => go(id)}
-                className={`block w-full px-4 py-3 text-left text-sm font-medium ${
-                  active === i ? 'bg-sun text-white' : 'text-white/90'
+                className={`block w-full px-4 py-3 text-left text-base font-bold ${
+                  active === i ? 'rounded-lg bg-sun text-white' : 'text-ink/90'
                 }`}
               >
                 {label}

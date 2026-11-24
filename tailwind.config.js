@@ -4,10 +4,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        indigo: { zeda: '#0F3D2E', deep: '#082a1f' },
-        sun: '#E8731A',
-        sky: { zeda: '#E6F4EC' },
-        ink: '#0F3D2E',
+        indigo: { zeda: '#0b5d68', deep: '#06424b' },
+        sun: '#ee5a48',
+        sky: { zeda: '#e6f6f3' },
+        ink: '#0b5d68',
       },
       fontFamily: {
         display: ['"Playfair Display"', 'Georgia', 'serif'],

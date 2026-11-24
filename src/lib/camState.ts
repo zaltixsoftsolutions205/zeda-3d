@@ -21,9 +21,9 @@ export const device = {
 export const SECTION_IDS = [
   'home',
   'about',
-  'applications',
   'features',
-  'analytics',
-  'schools',
+  'why',
+  'clients',
+  'testimonials',
   'contact',
 ] as const

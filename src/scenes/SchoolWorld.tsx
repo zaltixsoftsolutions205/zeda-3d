@@ -3,17 +3,16 @@ import { useFrame, useThree } from '@react-three/fiber'
 import { Environment, Lightformer } from '@react-three/drei'
 import * as THREE from 'three'
 import SchoolEnvironment from './SchoolEnvironment'
-import DigitalEnvironment from './DigitalEnvironment'
 import { CameraController } from './CameraController'
 import { digitalLights, timeUniform } from './sceneState'
 import { cam, device } from '../lib/camState'
 
-const DAY_TOP = new THREE.Color('#5fa6e6')
-const DAY_HOR = new THREE.Color('#eaf5fd')
-const NIGHT_TOP = new THREE.Color('#03160f')
-const NIGHT_HOR = new THREE.Color('#0F3D2E')
-const FOG_DAY = new THREE.Color('#d9ecf9')
-const FOG_NIGHT = new THREE.Color('#0a2e22')
+const DAY_TOP = new THREE.Color('#58bfcc')
+const DAY_HOR = new THREE.Color('#eaf8f6')
+const NIGHT_TOP = new THREE.Color('#03323a')
+const NIGHT_HOR = new THREE.Color('#0b5d68')
+const FOG_DAY = new THREE.Color('#dcf3f0')
+const FOG_NIGHT = new THREE.Color('#073f47')
 
 function SkyDome() {
   const mat = useMemo(
@@ -76,7 +75,7 @@ function WorldState({ tier }: { tier: number }) {
 
   return (
     <>
-      <hemisphereLight ref={hemi} args={['#cfe6ff', '#b9b2a4', 0.6]} />
+      <hemisphereLight ref={hemi} args={['#cdefe8', '#b9b2a4', 0.6]} />
       <directionalLight
         ref={sun}
         position={[70, 95, 55]}
@@ -107,14 +106,13 @@ export default function SchoolWorld({ tier }: { tier: number }) {
       {/* procedural studio environment: gives glass and paint believable reflections with zero downloads */}
       <Environment resolution={128} frames={1}>
         <Lightformer form="rect" intensity={3} position={[0, 12, 0]} rotation-x={Math.PI / 2} scale={[40, 40, 1]} color="#ffffff" />
-        <Lightformer form="rect" intensity={2.2} position={[-14, 5, 10]} rotation-y={Math.PI / 2} scale={[24, 12, 1]} color="#dff0ff" />
+        <Lightformer form="rect" intensity={2.2} position={[-14, 5, 10]} rotation-y={Math.PI / 2} scale={[24, 12, 1]} color="#d8f3ef" />
         <Lightformer form="rect" intensity={2.4} position={[14, 4, -10]} rotation-y={-Math.PI / 2} scale={[24, 10, 1]} color="#fff0d8" />
-        <Lightformer form="rect" intensity={1.2} position={[0, 3, 16]} scale={[40, 8, 1]} color="#cfe3ff" />
+        <Lightformer form="rect" intensity={1.2} position={[0, 3, 16]} scale={[40, 8, 1]} color="#cdefe8" />
       </Environment>
       <Suspense fallback={null}>
         <SchoolEnvironment lite={lite} />
       </Suspense>
-      <DigitalEnvironment />
     </>
   )
 }

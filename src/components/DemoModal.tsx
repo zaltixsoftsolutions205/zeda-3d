@@ -46,7 +46,7 @@ export default function DemoModal() {
               <div className="py-8 text-center">
                 <div className="mx-auto mb-4 grid h-14 w-14 place-items-center rounded-full bg-sun text-2xl text-white">✓</div>
                 <h3 className="text-2xl font-bold">Thank you!</h3>
-                <p className="mt-2 text-white/75">The ZEDA team will get in touch shortly.</p>
+                <p className="mt-2 text-white/75">The Medav.ai team will get in touch shortly.</p>
                 <button className="btn btn-primary mt-6" onClick={() => modal.close()}>
                   Back to the campus
                 </button>
@@ -55,9 +55,9 @@ export default function DemoModal() {
               <form onSubmit={submit} className="space-y-3">
                 <div className="mb-2 flex items-start justify-between">
                   <div>
-                    <h3 className="text-2xl font-bold">{mode === 'demo' ? 'Book a Demo' : 'Contact ZEDA'}</h3>
+                    <h3 className="text-2xl font-bold">{mode === 'demo' ? 'Book a Demo' : 'Contact Medav.ai'}</h3>
                     <p className="mt-1 text-sm text-white/70">
-                      {mode === 'demo' ? 'See ZEDA run your school, live.' : 'Tell us about your school.'}
+                      {mode === 'demo' ? 'See Medav.ai run your school, live.' : 'Tell us about your school.'}
                     </p>
                   </div>
                   <button type="button" onClick={() => modal.close()} aria-label="Close" className="rounded-full bg-white/10 px-3 py-1 text-lg">

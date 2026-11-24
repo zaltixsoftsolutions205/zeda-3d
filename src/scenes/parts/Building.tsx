@@ -3,6 +3,7 @@ import * as THREE from 'three'
 import { Kit, KitMeshes } from './kit'
 import { buildShell, CH, FL } from './shell'
 import { buildInterior, DOORS } from './interior'
+import { texHolo, texSmartBoard } from '../texturesExtra'
 import { texCarpet, texLogoWall, texScreen, texSign, texTile, texWhiteboard, texWood, tiled } from '../textures'
 import { digitalLights } from '../sceneState'
 
@@ -14,6 +15,7 @@ function Plane({
   map,
   basic = false,
   color,
+  overlay = false,
 }: {
   p: [number, number, number]
   size: [number, number]
@@ -22,12 +24,13 @@ function Plane({
   map?: THREE.Texture
   basic?: boolean
   color?: string
+  overlay?: boolean
 }) {
   return (
     <mesh position={p} rotation={[rx, ry, 0]} receiveShadow={!basic}>
       <planeGeometry args={size} />
       {basic ? (
-        <meshBasicMaterial map={map} color={color} toneMapped={false} />
+        <meshBasicMaterial map={map} color={color} toneMapped={false} transparent={overlay} opacity={overlay ? 0.88 : 1} depthWrite={!overlay} side={overlay ? 2 : 0} />
       ) : (
         <meshStandardMaterial map={map} color={color} roughness={0.55} metalness={0.05} />
       )}
@@ -67,13 +70,18 @@ export function Building({ lite }: { lite: boolean }) {
       <Plane p={[15, fy + 0.002, 5.15]} size={[18, 5.1]} rx={-Math.PI / 2} map={tex.wood} />
       <Plane p={[-15, fy + 0.002, -4.35]} size={[18, 6.7]} rx={-Math.PI / 2} map={tex.wood} />
       <Plane p={[15, fy + 0.002, -4.35]} size={[18, 6.7]} rx={-Math.PI / 2} map={tex.carpet} />
-      <Plane p={[20.2, fy + 0.012, 5.5]} size={[5.4, 3.6]} rx={-Math.PI / 2} color="#e7efe6" />
+      <Plane p={[20.2, fy + 0.012, 5.5]} size={[5.4, 3.6]} rx={-Math.PI / 2} color="#e3f1ee" />
       {/* forecourt under the portico */}
       <mesh position={[0, 0.125, 11.4]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
         <planeGeometry args={[18, 6.5]} />
         <meshStandardMaterial color="#cfc8ba" roughness={0.8} />
       </mesh>
 
+      {/* digital classroom: smart board + floating holographic analytics */}
+      <Plane p={[15.5, 2.12, -7.57]} size={[3.5, 1.97]} map={texSmartBoard()} basic />
+      <Plane p={[10.6, 2.7, -5.9]} size={[1.9, 1.19]} ry={0.55} map={texHolo(0)} basic overlay />
+      <Plane p={[20.6, 2.7, -5.9]} size={[1.9, 1.19]} ry={-0.55} map={texHolo(1)} basic overlay />
+      <Plane p={[15.5, 3.4, -6.6]} size={[2.0, 1.25]} map={texHolo(2)} basic overlay />
       {/* reception logo wall */}
       <Plane p={[0, 2.3, -7.55]} size={[6.4, 3.2]} map={texLogoWall()} basic />
       {/* classroom whiteboard */}
@@ -91,7 +99,7 @@ export function Building({ lite }: { lite: boolean }) {
       <Plane
         p={[0, 11.9, 10.07]}
         size={[10.4, 2.6]}
-        map={texSign('ZEDA PUBLIC SCHOOL', { sub: 'Learn · Grow · Lead', w: 1024, h: 256 })}
+        map={texSign('MEDAV.AI PUBLIC SCHOOL', { sub: 'Learn · Grow · Lead', w: 1024, h: 256 })}
         basic
       />
 

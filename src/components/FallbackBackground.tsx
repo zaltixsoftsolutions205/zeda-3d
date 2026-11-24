@@ -38,7 +38,7 @@ export default function FallbackBackground() {
   }, [])
 
   return (
-    <div className="absolute inset-0 overflow-hidden bg-[#25245B]">
+    <div className="absolute inset-0 overflow-hidden bg-[#0b5d68]">
       <div ref={box} className="absolute inset-[-3%] will-change-transform">
         {Array.from({ length: FRAMES }, (_, i) => (
           <img

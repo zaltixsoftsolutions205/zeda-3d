@@ -1,4 +1,4 @@
-# ZEDA – Immersive 3D Website (frontend only)
+# Medav.ai – Immersive 3D Website (frontend only)
 
 React + Vite + TypeScript · Three.js / React Three Fiber / drei · GSAP ScrollTrigger · Framer Motion · Tailwind
 

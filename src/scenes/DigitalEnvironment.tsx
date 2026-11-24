@@ -5,8 +5,8 @@ import { DIGITAL_Y } from './cameraPath'
 import { digitalLights } from './sceneState'
 import { device } from '../lib/camState'
 
-const SKY = '#BFEBD3'
-const YEL = '#FFA24A'
+const SKY = '#9fe7d8'
+const YEL = '#fbaf22'
 
 function GridFloor() {
   const mat = useMemo(
@@ -89,7 +89,7 @@ function DataBars() {
   )
   useLayoutEffect(() => {
     const c = new THREE.Color()
-    cfg.forEach((b, i) => ref.current.setColorAt(i, c.set(i % 4 === 0 ? YEL : i % 4 === 1 ? '#5fd0a0' : SKY)))
+    cfg.forEach((b, i) => ref.current.setColorAt(i, c.set(i % 4 === 0 ? YEL : i % 4 === 1 ? '#35bfa6' : SKY)))
     if (ref.current.instanceColor) ref.current.instanceColor.needsUpdate = true
   }, [cfg])
   const m = useMemo(() => new THREE.Matrix4(), [])
@@ -145,7 +145,7 @@ function Donut() {
   const arcs: [number, number, string][] = [
     [0, 3.2, YEL],
     [3.3, 1.7, SKY],
-    [5.1, 1.1, '#F28C28'],
+    [5.1, 1.1, '#fbaf22'],
   ]
   return (
     <group ref={g} position={[-26, 14, 14]}>
@@ -205,7 +205,7 @@ function GlassPanes() {
         <group key={i} position={[x, y, z]} rotation={[0, ry, 0]}>
           <mesh>
             <planeGeometry args={[w, w * 0.6]} />
-            <meshBasicMaterial color="#F28C28" transparent opacity={0.1} side={THREE.DoubleSide} fog={false} depthWrite={false} />
+            <meshBasicMaterial color="#fbaf22" transparent opacity={0.1} side={THREE.DoubleSide} fog={false} depthWrite={false} />
           </mesh>
           <lineSegments>
             <edgesGeometry args={[new THREE.PlaneGeometry(w, w * 0.6)]} />

@@ -32,9 +32,13 @@ export const KEYS: Key[] = [
   { u: 2.3, p: [-14.6, 1.85, 1.0], l: [-5, 1.75, 0.9], fov: 64, opt: true },
   { u: 2.75, p: [11.5, 1.85, 0.95], l: [15, 1.5, 3.6], fov: 64 },
   { u: 3, p: [15.2, 1.8, 3.5], l: [20.4, 1.25, 6.0], fov: 58 },
-  { u: 3.5, p: [19.1, 1.32, 5.85], l: [20.5, 1.3, 5.85], fov: 46 },
-  { u: 4, p: [0, D + 10, 44], l: [0, D + 6, 0], fov: 50 },
-  { u: 4.5, p: [-52, 120, 104], l: [0, 14, 0], fov: 44, opt: true },
+  { u: 3.3, p: [15.1, 1.85, 1.3], l: [15, 1.7, -5], fov: 62, opt: true },
+  { u: 3.7, p: [15, 1.8, 0.9], l: [15.6, 1.8, -6], fov: 62, opt: true },
+  { u: 4, p: [15.05, 1.75, -0.4], l: [16.7, 2.0, -7.4], fov: 62 },
+  { u: 4.3, p: [15, 1.85, 0.9], l: [4, 1.8, 1.0], fov: 64, opt: true },
+  { u: 4.55, p: [3, 1.9, 1.6], l: [0, 1.9, 9], fov: 64, opt: true },
+  { u: 4.7, p: [0, 2.3, 10.5], l: [0, 2.6, 22], fov: 58 },
+  { u: 4.85, p: [0, 4.2, 28], l: [0, 4.5, 12], fov: 50, opt: true },
   { u: 5, p: [-64, 36, 92], l: [4, 8, 4], fov: 42 },
   { u: 6, p: [34, 92, 176], l: [0, -22, 6], fov: 38 },
 ]
@@ -46,7 +50,7 @@ export const smooth = (a: number, b: number, x: number) => {
 
 /** 0 → 1 when diving into the monitor, 1 → 0 when returning to the physical campus. */
 export const digitalAmount = (u: number) =>
-  Math.min(1, Math.max(0, smooth(3.3, 3.8, u) - smooth(4.35, 4.85, u)))
+  0 * u
 
 export interface Sample {
   p: Vector3
